@@ -1,0 +1,5 @@
+dlib
+glob2
+opencv-python
+pyautogui
+shutil
