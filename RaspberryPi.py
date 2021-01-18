@@ -7,12 +7,13 @@ import numpy as np
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-#DECLARE CAMERA MODULE
-camera = PiCamera()
-camera.resolution = (848, 480)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(848, 480))
+# DECLARE PICAMERA
+camera = PiCamera ()
+camera.resolution = (840, 480)
 camera.vflip = True
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size= (840, 480))
+time.sleep(0.5) #allow picamera to warm up
 
 time.sleep(0.2)
 
@@ -31,8 +32,12 @@ detector = dlib.simple_object_detector('Hand_Detector.svm')
 counter = 0
 
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    counter += 1
-    cap = frame.array
+    frame = frame.array #store each incoming image as a numpy array
+
+
+
+    # counter += 1
+    # cap = frame.array
     # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     # while True:
@@ -110,8 +115,12 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         cv2.putText(frame, text, (220, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (33, 100, 185), 2)
 
     cv2.imshow('frame', frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+
+    key = cv2.waitKey(1) & 0xFF
+    rawCapture.truncate(0)
+
+    if key == ord('q'):
         break
 
-cap.release()
+frame.release()
 cv2.destroyAllWindows()
