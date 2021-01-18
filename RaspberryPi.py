@@ -1,6 +1,6 @@
 import pyautogui as pyg
 import dlib
-import cv2
+from cv2 import *
 from settings import *
 import time
 import numpy as np
@@ -41,7 +41,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     #     if not ret:
     #         break
 
-    #frame = cv2.flip(frame, 1)
+    frame = cv2.flip(frame, 1)
 
     # Calculate the average FPS
 
